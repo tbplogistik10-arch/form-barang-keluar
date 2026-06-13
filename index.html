@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Form Barang Keluar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 1rem;
+  }
+
+  .header {
+    background: #1e3a5f;
+    color: white;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header svg { flex-shrink: 0; }
+  .header h1 { font-size: 17px; font-weight: 600; }
+  .header p { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e8eaed;
+  }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+  }
+
+  label {
+    font-size: 13px;
+    color: #4b5563;
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #1a1a1a;
+    background: white;
+    outline: none;
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus { border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,0.1); }
+  input[readonly] { background: #f9fafb; color: #6b7280; }
+
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+
+  .part-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e8eaed;
+    position: relative;
+  }
+
+  .part-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .part-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e3a5f;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: #e8f0fe;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .btn-hapus {
+    background: #fff1f0;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn-hapus:active { opacity: 0.7; }
+
+  .scan-row {
+    display: flex;
+    gap: 8px;
+  }
+  .scan-row input { flex: 1; }
+
+  .btn-scan {
+    background: #1e3a5f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 46px;
+  }
+  .btn-scan:active { opacity: 0.8; }
+  .btn-scan.active { background: #16a34a; }
+
+  .scanner-wrap {
+    display: none;
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #d1d5db;
+    position: relative;
+    background: #000;
+  }
+  .scanner-wrap video {
+    width: 100%;
+    display: block;
+    max-height: 220px;
+    object-fit: cover;
+  }
+  .scan-overlay {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    width: 200px; height: 90px;
+    border: 2px solid rgba(255,255,255,0.85);
+    border-radius: 8px;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.4);
+  }
+  .scan-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #6b7280;
+    padding: 8px;
+    background: white;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .btn-tambah {
+    width: 100%;
+    padding: 13px;
+    background: white;
+    border: 1.5px dashed #1e3a5f;
+    border-radius: 12px;
+    color: #1e3a5f;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-tambah:active { background: #f0f4ff; }
+
+  .btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: #1e3a5f;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .btn-submit:active { opacity: 0.85; }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .toast {
+    display: none;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .toast.success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+  .toast.danger  { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+  </svg>
+  <div>
+    <h1>Form Barang Keluar</h1>
+    <p>Scan & input data pengeluaran barang</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">Informasi Transaksi</div>
+
+  <div class="field">
+    <label>Tanggal & Jam</label>
+    <input type="text" id="tgl-jam" readonly />
+  </div>
+
+  <div class="field">
+    <label>Nama</label>
+    <select id="nama">
+      <option value="">— Pilih Nama —</option>
+      <option>Iqbal</option>
+      <option>Husen</option>
+      <option>Gerry</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>No Unit</label>
+    <input type="text" id="no-unit" placeholder="Contoh: U-001" />
+  </div>
+</div>
+
+<div id="items-container"></div>
+
+<button class="btn-tambah" onclick="tambahItem()">
+  <span style="font-size:20px;">+</span> Tambah Part
+</button>
+
+<button class="btn-submit" id="btn-submit" onclick="submitForm()">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+  Submit ke Google Sheets
+</button>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVhyo9FErPXyEgiBtiRQwv_oZsi90dDyvFrJcgn9jx1g0gJ1UspcBJonY897qtAzhO/exec';
+
+let itemCount = 0;
+let activeScanner = null;
+let activeScannerItemId = null;
+
+function updateClock() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('tgl-jam').value =
+    `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+function tambahItem() {
+  itemCount++;
+  const id = itemCount;
+  const div = document.createElement('div');
+  div.className = 'part-card';
+  div.id = 'item-' + id;
+  div.innerHTML = `
+    <div class="part-header">
+      <span class="part-label">Part #${id}</span>
+      <button class="btn-hapus" onclick="hapusItem(${id})">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        Hapus
+      </button>
+    </div>
+
+    <div class="field">
+      <label>Part Number</label>
+      <div class="scan-row">
+        <input type="text" id="pn-${id}" placeholder="Scan atau ketik manual" />
+        <button class="btn-scan" id="btn-scan-${id}" onclick="toggleScanner(${id})" aria-label="Scan barcode">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 012-2h4"/><path d="M15 3h4a2 2 0 012 2v4"/><path d="M21 15v4a2 2 0 01-2 2h-4"/><path d="M9 21H5a2 2 0 01-2-2v-4"/><line x1="7" y1="8" x2="7" y2="16"/><line x1="10" y1="8" x2="10" y2="16"/><line x1="13" y1="8" x2="13" y2="16"/><line x1="16" y1="8" x2="16" y2="16"/></svg>
+        </button>
+      </div>
+      <div class="scanner-wrap" id="scanner-wrap-${id}">
+        <video id="video-${id}" playsinline></video>
+        <div class="scan-overlay"></div>
+        <p class="scan-hint" id="scan-status-${id}">Arahkan kamera ke barcode...</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label>Qty</label>
+        <input type="number" id="qty-${id}" min="1" value="1" inputmode="numeric" />
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="status-${id}">
+          <option value="">— Pilih —</option>
+          <option>Non Consignment</option>
+          <option>Consignment</option>
+        </select>
+      </div>
+    </div>
+  `;
+  document.getElementById('items-container').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function hapusItem(id) {
+  if (activeScannerItemId === id) stopScanner();
+  const el = document.getElementById('item-' + id);
+  if (el) el.remove();
+}
+
+function toggleScanner(id) {
+  if (activeScannerItemId === id) { stopScanner(); return; }
+  if (activeScanner) stopScanner();
+  startScanner(id);
+}
+
+function startScanner(id) {
+  const wrap = document.getElementById('scanner-wrap-' + id);
+  const video = document.getElementById('video-' + id);
+  const btn = document.getElementById('btn-scan-' + id);
+  const status = document.getElementById('scan-status-' + id);
+
+  wrap.style.display = 'block';
+  btn.classList.add('active');
+  status.textContent = 'Arahkan kamera ke barcode...';
+  status.style.color = '#6b7280';
+
+  const codeReader = new ZXing.BrowserMultiFormatReader();
+  activeScanner = codeReader;
+  activeScannerItemId = id;
+
+  codeReader.decodeFromVideoDevice(null, video, (result, err) => {
+    if (result) {
+      document.getElementById('pn-' + id).value = result.getText();
+      status.textContent = '✓ Berhasil: ' + result.getText();
+      status.style.color = '#16a34a';
+      stopScanner();
+      document.getElementById('qty-' + id).focus();
+    }
+    if (err && !(err instanceof ZXing.NotFoundException)) {
+      status.textContent = 'Tidak bisa akses kamera. Ketik manual ya.';
+      status.style.color = '#dc2626';
+    }
+  }).catch(() => {
+    status.textContent = 'Izin kamera ditolak. Ketik manual ya.';
+    status.style.color = '#dc2626';
+  });
+}
+
+function stopScanner() {
+  if (activeScanner) {
+    try { activeScanner.reset(); } catch(e) {}
+    activeScanner = null;
+  }
+  if (activeScannerItemId !== null) {
+    const wrap = document.getElementById('scanner-wrap-' + activeScannerItemId);
+    const btn = document.getElementById('btn-scan-' + activeScannerItemId);
+    if (wrap) wrap.style.display = 'none';
+    if (btn) btn.classList.remove('active');
+    activeScannerItemId = null;
+  }
+}
+
+async function submitForm() {
+  const tgl = document.getElementById('tgl-jam').value;
+  const nama = document.getElementById('nama').value;
+  const noUnit = document.getElementById('no-unit').value.trim();
+
+  if (!nama) { showToast('Pilih nama terlebih dahulu.', 'danger'); return; }
+  if (!noUnit) { showToast('Isi No Unit terlebih dahulu.', 'danger'); return; }
+
+  const items = [];
+  document.querySelectorAll('[id^="pn-"]').forEach(el => {
+    const id = el.id.split('-')[1];
+    const pn = el.value.trim();
+    const qty = document.getElementById('qty-' + id).value;
+    const status = document.getElementById('status-' + id).value;
+    if (pn) items.push({ tgl, nama, noUnit, pn, qty, status });
+  });
+
+  if (items.length === 0) { showToast('Tambahkan minimal 1 Part Number.', 'danger'); return; }
+  if (items.find(i => !i.status)) { showToast('Pilih Status untuk semua part.', 'danger'); return; }
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Mengirim...';
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(items)
+    });
+    const json = await res.json();
+    if (json.status === 'success') {
+      showToast(`✓ ${items.length} baris berhasil masuk ke Google Sheets!`, 'success');
+      resetForm();
+    } else {
+      showToast('Gagal: ' + (json.message || 'Coba lagi.'), 'danger');
+    }
+  } catch (err) {
+    showToast('Gagal kirim. Cek koneksi internet.', 'danger');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Submit ke Google Sheets';
+  }
+}
+
+function resetForm() {
+  document.getElementById('nama').value = '';
+  document.getElementById('no-unit').value = '';
+  document.getElementById('items-container').innerHTML = '';
+  itemCount = 0;
+  tambahItem();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.className = 'toast ' + type;
+  t.style.display = 'block';
+  t.textContent = msg;
+  if (type === 'success') setTimeout(() => t.style.display = 'none', 4000);
+}
+
+tambahItem();
+</script>
+</body>
+</html>
