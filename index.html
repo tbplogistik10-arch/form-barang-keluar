@@ -3,305 +3,136 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Form Barang Keluar</title>
+<title>Form Barang Keluar - PT. Trimegah Bangun Persada</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a1a; min-height: 100vh; padding: 1rem; }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f0f2f5;
-    color: #1a1a1a;
-    min-height: 100vh;
-    padding: 1rem;
-  }
-
-  .header {
-    background: #1e3a5f;
-    color: white;
-    padding: 1rem 1.25rem;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .header-logo {
-    width: 52px;
-    height: 52px;
-    border-radius: 8px;
-    object-fit: contain;
-    background: white;
-    padding: 4px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  .header-logo img { width: 100%; height: 100%; object-fit: contain; display: none; }
-  .header-logo svg { display: block; }
-  .header-logo.has-logo svg { display: none; }
-  .header-logo.has-logo img { display: block; }
-
+  .header { background: #1e3a5f; color: white; padding: 1rem 1.25rem; border-radius: 12px; margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; }
+  .header-logo { width: 52px; height: 52px; border-radius: 8px; background: white; padding: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; }
+  .header-logo img { width: 100%; height: 100%; object-fit: contain; }
   .header-text h1 { font-size: 15px; font-weight: 700; line-height: 1.3; }
   .header-text h2 { font-size: 13px; font-weight: 400; opacity: 0.75; margin-top: 2px; }
   .header-text p  { font-size: 11px; opacity: 0.55; margin-top: 4px; }
-  .logo-hint { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 3px; cursor: pointer; text-decoration: underline; }
 
-  .card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid #e8eaed;
-  }
+  .card { background: white; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; border: 1px solid #e8eaed; }
+  .card-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
 
-  .card-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 1rem;
-  }
-
-  label {
-    font-size: 13px;
-    color: #4b5563;
-    display: block;
-    margin-bottom: 4px;
-    font-weight: 500;
-  }
-
+  label { font-size: 13px; color: #4b5563; display: block; margin-bottom: 4px; font-weight: 500; }
   input[type="text"], input[type="number"], select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 15px;
-    color: #1a1a1a;
-    background: white;
-    outline: none;
-    transition: border-color 0.15s;
-    -webkit-appearance: none;
+    width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px;
+    font-size: 15px; color: #1a1a1a; background: white; outline: none;
+    transition: border-color 0.15s; -webkit-appearance: none;
   }
   input:focus, select:focus { border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,0.1); }
   input[readonly] { background: #f9fafb; color: #6b7280; }
-
   .field { margin-bottom: 14px; }
   .field:last-child { margin-bottom: 0; }
 
-  /* Warehouse checkbox */
-  .wh-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .wh-option {
-    flex: 1;
-    border: 1.5px solid #d1d5db;
-    border-radius: 10px;
-    padding: 10px 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    user-select: none;
-  }
-  .wh-option:active { opacity: 0.7; }
-  .wh-option.selected {
-    border-color: #1e3a5f;
-    background: #f0f4ff;
-  }
-  .wh-option input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    accent-color: #1e3a5f;
-    cursor: pointer;
-    padding: 0;
-    border: none;
-    box-shadow: none;
-  }
-  .wh-option-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #374151;
+  /* No Transaksi badge */
+  .no-trx-badge {
+    display: inline-block; background: #e8f0fe; color: #1e3a5f;
+    font-size: 12px; font-weight: 600; padding: 4px 10px;
+    border-radius: 20px; margin-bottom: 12px; letter-spacing: 0.03em;
   }
 
-  .wh-sub {
-    display: none;
-    margin-top: 4px;
+  /* Radio Button Unit Prefix */
+  .prefix-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px;
   }
+  .prefix-opt { position: relative; }
+  .prefix-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .prefix-opt label {
+    display: flex; align-items: center; justify-content: center;
+    padding: 8px 4px; border: 1.5px solid #d1d5db; border-radius: 8px;
+    font-size: 13px; font-weight: 600; color: #4b5563;
+    cursor: pointer; text-align: center; transition: all 0.15s;
+    margin: 0;
+  }
+  .prefix-opt input[type="radio"]:checked + label {
+    border-color: #1e3a5f; background: #e8f0fe; color: #1e3a5f;
+  }
+  .unit-row { display: flex; gap: 8px; align-items: center; }
+  .unit-prefix-display {
+    background: #1e3a5f; color: white; padding: 10px 12px;
+    border-radius: 8px; font-size: 15px; font-weight: 600;
+    white-space: nowrap; flex-shrink: 0; min-width: 52px; text-align: center;
+  }
+  .unit-row input { flex: 1; }
+
+  /* Radio Warehouse */
+  .wh-options { display: flex; gap: 10px; margin-bottom: 12px; }
+  .wh-opt { position: relative; flex: 1; }
+  .wh-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .wh-opt label {
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px 8px; border: 1.5px solid #d1d5db; border-radius: 10px;
+    font-size: 13px; font-weight: 600; color: #4b5563;
+    cursor: pointer; text-align: center; transition: all 0.15s; margin: 0;
+  }
+  .wh-opt input[type="radio"]:checked + label {
+    border-color: #1e3a5f; background: #e8f0fe; color: #1e3a5f;
+  }
+  .wh-sub { display: none; }
   .wh-sub.show { display: block; }
 
   /* Part card */
-  .part-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid #e8eaed;
-  }
-  .part-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  .part-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #1e3a5f;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    background: #e8f0fe;
-    padding: 4px 10px;
-    border-radius: 20px;
-  }
-  .btn-hapus {
-    background: #fff1f0;
-    border: 1px solid #fca5a5;
-    color: #dc2626;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 13px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+  .part-card { background: white; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; border: 1px solid #e8eaed; }
+  .part-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .part-label { font-size: 11px; font-weight: 600; color: #1e3a5f; text-transform: uppercase; letter-spacing: 0.06em; background: #e8f0fe; padding: 4px 10px; border-radius: 20px; }
+  .btn-hapus { background: #fff1f0; border: 1px solid #fca5a5; color: #dc2626; border-radius: 8px; padding: 6px 10px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
   .btn-hapus:active { opacity: 0.7; }
 
   .scan-row { display: flex; gap: 8px; }
   .scan-row input { flex: 1; }
-
-  .btn-scan {
-    background: #1e3a5f;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    min-width: 46px;
-  }
+  .btn-scan { background: #1e3a5f; color: white; border: none; border-radius: 8px; padding: 0 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 46px; }
   .btn-scan:active { opacity: 0.8; }
   .btn-scan.active { background: #16a34a; }
 
-  .scanner-wrap {
-    display: none;
-    margin-top: 10px;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid #d1d5db;
-    position: relative;
-    background: #000;
-  }
+  .scanner-wrap { display: none; margin-top: 10px; border-radius: 10px; overflow: hidden; border: 1px solid #d1d5db; position: relative; background: #000; }
   .scanner-wrap video { width: 100%; display: block; max-height: 220px; object-fit: cover; }
-  .scan-overlay {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    width: 200px; height: 90px;
-    border: 2px solid rgba(255,255,255,0.85);
-    border-radius: 8px;
-    box-shadow: 0 0 0 9999px rgba(0,0,0,0.4);
-  }
+  .scan-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; width: 200px; height: 90px; border: 2px solid rgba(255,255,255,0.85); border-radius: 8px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.4); }
   .scan-hint { text-align: center; font-size: 12px; color: #6b7280; padding: 8px; background: white; }
+
+  .desc-field { margin-top: 8px; }
+  .desc-field input { background: #f0f7ff; border-color: #bfdbfe; color: #1e40af; font-size: 13px; }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-  .btn-tambah {
-    width: 100%;
-    padding: 13px;
-    background: white;
-    border: 1.5px dashed #1e3a5f;
-    border-radius: 12px;
-    color: #1e3a5f;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
+  .btn-tambah { width: 100%; padding: 13px; background: white; border: 1.5px dashed #1e3a5f; border-radius: 12px; color: #1e3a5f; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
   .btn-tambah:active { background: #f0f4ff; }
 
-  .btn-submit {
-    width: 100%;
-    padding: 15px;
-    background: #1e3a5f;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 1rem;
-  }
+  .btn-submit { width: 100%; padding: 15px; background: #1e3a5f; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1rem; }
   .btn-submit:active { opacity: 0.85; }
   .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-  .toast {
-    display: none;
-    padding: 14px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 500;
-    margin-bottom: 1rem;
-  }
+  .toast { display: none; padding: 14px 16px; border-radius: 10px; font-size: 14px; text-align: center; font-weight: 500; margin-bottom: 1rem; }
   .toast.success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
   .toast.danger  { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
 
-  .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: inline-block;
-  }
+  .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  #logo-input { display: none; }
 </style>
 </head>
 <body>
 
-<input type="file" id="logo-input" accept="image/*" onchange="loadLogo(event)" />
-
 <div class="header">
-  <div class="header-logo" id="logo-wrap" onclick="document.getElementById('logo-input').click()" title="Tap untuk upload logo">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-    </svg>
-    <img id="logo-img" src="" alt="Logo" />
+  <div class="header-logo">
+    <img src="Logo-NCKL%2020(small).png" alt="Logo PT. Trimegah Bangun Persada" />
   </div>
   <div class="header-text">
     <h1>PT. TRIMEGAH BANGUN PERSADA</h1>
     <h2>Departemen Logistik</h2>
     <p>Form Barang Keluar</p>
-    <span class="logo-hint" onclick="document.getElementById('logo-input').click()">Tap logo untuk upload gambar</span>
   </div>
 </div>
 
 <div class="card">
   <div class="card-title">Informasi Transaksi</div>
+
+  <div id="no-trx-wrap" style="display:none;">
+    <span class="no-trx-badge" id="no-trx-display">Memuat No. Transaksi...</span>
+  </div>
 
   <div class="field">
     <label>Tanggal & Jam</label>
@@ -335,7 +166,33 @@
 
   <div class="field">
     <label>No Unit</label>
-    <input type="text" id="no-unit" placeholder="Contoh: U-001" />
+    <div class="prefix-grid">
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-DT" value="DT"><label for="p-DT">DT</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-LV" value="LV"><label for="p-LV">LV</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-BD" value="BD"><label for="p-BD">BD</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-EX" value="EX"><label for="p-EX">EX</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-CP" value="CP"><label for="p-CP">CP</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-MG" value="MG"><label for="p-MG">MG</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-LT" value="LT"><label for="p-LT">LT</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-CT" value="CT"><label for="p-CT">CT</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-FT" value="FT"><label for="p-FT">FT</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-MH" value="MH"><label for="p-MH">MH</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-WT" value="WT"><label for="p-WT">WT</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-WL" value="WL"><label for="p-WL">WL</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-FL" value="FL"><label for="p-FL">FL</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-LVB" value="LVB"><label for="p-LVB">LVB</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-ST" value="ST"><label for="p-ST">ST</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-TS" value="TS"><label for="p-TS">TS</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-MB" value="MB"><label for="p-MB">MB</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-WS" value="WS"><label for="p-WS">WS</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-HS" value="HS"><label for="p-HS">HS</label></div>
+      <div class="prefix-opt"><input type="radio" name="prefix" id="p-DEPT" value="DEPT"><label for="p-DEPT">DEPT</label></div>
+    </div>
+    <div class="unit-row" id="unit-input-wrap" style="display:none;">
+      <div class="unit-prefix-display" id="unit-prefix-display">--</div>
+      <input type="text" id="no-unit-num" placeholder="Nomor unit..." inputmode="numeric" />
+    </div>
+    <input type="hidden" id="no-unit" />
   </div>
 
   <div class="field">
@@ -346,16 +203,15 @@
   <div class="field">
     <label>Warehouse</label>
     <div class="wh-options">
-      <label class="wh-option" id="opt-krishna" onclick="toggleWH('krishna')">
-        <input type="checkbox" id="chk-krishna" onclick="event.stopPropagation(); toggleWH('krishna')" />
-        <span class="wh-option-label">Gudang Krishna</span>
-      </label>
-      <label class="wh-option" id="opt-yudistira" onclick="toggleWH('yudistira')">
-        <input type="checkbox" id="chk-yudistira" onclick="event.stopPropagation(); toggleWH('yudistira')" />
-        <span class="wh-option-label">Gudang Yudistira</span>
-      </label>
+      <div class="wh-opt">
+        <input type="radio" name="warehouse" id="wh-krishna" value="Gudang Krishna" onchange="toggleWH('krishna')">
+        <label for="wh-krishna">Gudang Krishna</label>
+      </div>
+      <div class="wh-opt">
+        <input type="radio" name="warehouse" id="wh-yudistira" value="Gudang Yudistira" onchange="toggleWH('yudistira')">
+        <label for="wh-yudistira">Gudang Yudistira</label>
+      </div>
     </div>
-
     <div class="wh-sub" id="sub-krishna">
       <label>Lokasi Gudang Krishna</label>
       <select id="loc-krishna">
@@ -367,7 +223,6 @@
         <option>WH Oil</option>
       </select>
     </div>
-
     <div class="wh-sub" id="sub-yudistira">
       <label>Lokasi Gudang Yudistira</label>
       <select id="loc-yudistira">
@@ -401,7 +256,10 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVhyo9FErPXyEg
 let itemCount = 0;
 let activeScanner = null;
 let activeScannerItemId = null;
+let isSubmitting = false;
+let masterDB = {}; // cache PN → Description
 
+// ── Clock ──
 function updateClock() {
   const now = new Date();
   const pad = n => String(n).padStart(2, '0');
@@ -411,64 +269,92 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-function loadLogo(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = document.getElementById('logo-img');
-    const wrap = document.getElementById('logo-wrap');
-    img.src = e.target.result;
-    wrap.classList.add('has-logo');
-    document.querySelector('.logo-hint').style.display = 'none';
-    try { localStorage.setItem('logo_tbp', e.target.result); } catch(e) {}
-  };
-  reader.readAsDataURL(file);
+// ── No Unit Prefix ──
+document.querySelectorAll('input[name="prefix"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const val = radio.value;
+    document.getElementById('unit-prefix-display').textContent = val;
+    document.getElementById('unit-input-wrap').style.display = 'flex';
+    const numInput = document.getElementById('no-unit-num');
+    if (val === 'DEPT') {
+      numInput.inputMode = 'text';
+      numInput.placeholder = 'Nama departemen...';
+    } else {
+      numInput.inputMode = 'numeric';
+      numInput.placeholder = 'Nomor unit...';
+    }
+    updateNoUnit();
+  });
+});
+document.getElementById('no-unit-num').addEventListener('input', updateNoUnit);
+function updateNoUnit() {
+  const prefix = document.querySelector('input[name="prefix"]:checked');
+  const num = document.getElementById('no-unit-num').value.trim();
+  if (prefix && num) {
+    document.getElementById('no-unit').value = prefix.value + '-' + num;
+  } else {
+    document.getElementById('no-unit').value = '';
+  }
 }
 
-window.addEventListener('load', () => {
-  try {
-    const saved = localStorage.getItem('logo_tbp');
-    if (saved) {
-      document.getElementById('logo-img').src = saved;
-      document.getElementById('logo-wrap').classList.add('has-logo');
-      document.querySelector('.logo-hint').style.display = 'none';
-    }
-  } catch(e) {}
-});
-
+// ── Warehouse ──
 function toggleWH(gudang) {
-  const chk = document.getElementById('chk-' + gudang);
-  const opt = document.getElementById('opt-' + gudang);
-  const sub = document.getElementById('sub-' + gudang);
-  const other = gudang === 'krishna' ? 'yudistira' : 'krishna';
-
-  // Uncheck other
-  document.getElementById('chk-' + other).checked = false;
-  document.getElementById('opt-' + other).classList.remove('selected');
-  document.getElementById('sub-' + other).classList.remove('show');
-
-  // Toggle current
-  chk.checked = !chk.checked;
-  if (chk.checked) {
-    opt.classList.add('selected');
-    sub.classList.add('show');
-  } else {
-    opt.classList.remove('selected');
-    sub.classList.remove('show');
-  }
+  document.getElementById('sub-krishna').classList.remove('show');
+  document.getElementById('sub-yudistira').classList.remove('show');
+  document.getElementById('sub-' + gudang).classList.add('show');
 }
 
 function getWarehouse() {
-  if (document.getElementById('chk-krishna').checked) {
-    return 'Gudang Krishna - ' + (document.getElementById('loc-krishna').value || '-');
+  const wh = document.querySelector('input[name="warehouse"]:checked');
+  if (!wh) return '';
+  if (wh.value === 'Gudang Krishna') {
+    const loc = document.getElementById('loc-krishna').value;
+    return 'Gudang Krishna' + (loc ? ' - ' + loc : '');
   }
-  if (document.getElementById('chk-yudistira').checked) {
-    return 'Gudang Yudistira - ' + (document.getElementById('loc-yudistira').value || '-');
+  if (wh.value === 'Gudang Yudistira') {
+    const loc = document.getElementById('loc-yudistira').value;
+    return 'Gudang Yudistira' + (loc ? ' - ' + loc : '');
   }
   return '';
 }
 
+// ── Master DB (fetch dari Apps Script) ──
+async function fetchMasterDB() {
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + '?action=getMaster');
+    const json = await res.json();
+    if (json.data) {
+      json.data.forEach(row => {
+        if (row.pn) masterDB[row.pn.trim().toUpperCase()] = row.desc || '';
+      });
+    }
+  } catch(e) { console.warn('Master DB tidak bisa diload:', e); }
+}
+fetchMasterDB();
+
+function lookupDescription(pn) {
+  return masterDB[pn.trim().toUpperCase()] || '';
+}
+
+// ── Duplicate PN Check ──
+function checkDuplicatePN(currentId) {
+  const currentPN = document.getElementById(`pn-${currentId}`).value.trim().toUpperCase();
+  if (!currentPN) return false;
+  let duplicate = false;
+  document.querySelectorAll('[id^="pn-"]').forEach(el => {
+    const id = el.id.split('-')[1];
+    if (id == currentId) return;
+    if (el.value.trim().toUpperCase() === currentPN) {
+      showToast(`PN ${currentPN} sudah ada pada Part #${id}`, 'danger');
+      document.getElementById(`pn-${currentId}`).value = '';
+      document.getElementById(`desc-${currentId}`).value = '';
+      duplicate = true;
+    }
+  });
+  return duplicate;
+}
+
+// ── Add Item ──
 function tambahItem() {
   itemCount++;
   const id = itemCount;
@@ -486,7 +372,9 @@ function tambahItem() {
     <div class="field">
       <label>Part Number</label>
       <div class="scan-row">
-        <input type="text" id="pn-${id}" placeholder="Scan atau ketik manual" />
+        <input type="text" id="pn-${id}" placeholder="Scan atau ketik manual"
+          onblur="onPNBlur(${id})"
+          onkeydown="if(event.key==='Enter'){onPNBlur(${id})}" />
         <button class="btn-scan" id="btn-scan-${id}" onclick="toggleScanner(${id})" aria-label="Scan barcode">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 012-2h4"/><path d="M15 3h4a2 2 0 012 2v4"/><path d="M21 15v4a2 2 0 01-2 2h-4"/><path d="M9 21H5a2 2 0 01-2-2v-4"/><line x1="7" y1="8" x2="7" y2="16"/><line x1="10" y1="8" x2="10" y2="16"/><line x1="13" y1="8" x2="13" y2="16"/><line x1="16" y1="8" x2="16" y2="16"/></svg>
         </button>
@@ -495,6 +383,9 @@ function tambahItem() {
         <video id="video-${id}" playsinline></video>
         <div class="scan-overlay"></div>
         <p class="scan-hint" id="scan-status-${id}">Arahkan kamera ke barcode...</p>
+      </div>
+      <div class="desc-field">
+        <input type="text" id="desc-${id}" readonly placeholder="Description otomatis..." />
       </div>
     </div>
     <div class="grid-2">
@@ -516,12 +407,22 @@ function tambahItem() {
   div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+function onPNBlur(id) {
+  if (checkDuplicatePN(id)) return;
+  const pn = document.getElementById(`pn-${id}`).value.trim();
+  if (pn) {
+    const desc = lookupDescription(pn);
+    document.getElementById(`desc-${id}`).value = desc || '(Tidak ditemukan di master)';
+  }
+}
+
 function hapusItem(id) {
   if (activeScannerItemId === id) stopScanner();
   const el = document.getElementById('item-' + id);
   if (el) el.remove();
 }
 
+// ── Scanner ──
 function toggleScanner(id) {
   if (activeScannerItemId === id) { stopScanner(); return; }
   if (activeScanner) stopScanner();
@@ -537,15 +438,23 @@ function startScanner(id) {
   btn.classList.add('active');
   status.textContent = 'Arahkan kamera ke barcode...';
   status.style.color = '#6b7280';
+
   const codeReader = new ZXing.BrowserMultiFormatReader();
   activeScanner = codeReader;
   activeScannerItemId = id;
+
   codeReader.decodeFromVideoDevice(null, video, (result, err) => {
     if (result) {
-      document.getElementById('pn-' + id).value = result.getText();
-      status.textContent = '✓ Berhasil: ' + result.getText();
+      const pn = result.getText();
+      document.getElementById('pn-' + id).value = pn;
+      status.textContent = '✓ Berhasil: ' + pn;
       status.style.color = '#16a34a';
       stopScanner();
+      // cek duplikat & lookup desc
+      if (!checkDuplicatePN(id)) {
+        const desc = lookupDescription(pn);
+        document.getElementById(`desc-${id}`).value = desc || '(Tidak ditemukan di master)';
+      }
       document.getElementById('qty-' + id).focus();
     }
     if (err && !(err instanceof ZXing.NotFoundException)) {
@@ -559,17 +468,31 @@ function startScanner(id) {
 }
 
 function stopScanner() {
-  if (activeScanner) { try { activeScanner.reset(); } catch(e) {} activeScanner = null; }
+  if (activeScanner) {
+    try { activeScanner.reset(); } catch(e) {}
+    activeScanner = null;
+  }
   if (activeScannerItemId !== null) {
     const wrap = document.getElementById('scanner-wrap-' + activeScannerItemId);
     const btn = document.getElementById('btn-scan-' + activeScannerItemId);
-    if (wrap) wrap.style.display = 'none';
+    // Matikan track kamera
+    if (wrap) {
+      const video = wrap.querySelector('video');
+      if (video && video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+      }
+      wrap.style.display = 'none';
+    }
     if (btn) btn.classList.remove('active');
     activeScannerItemId = null;
   }
 }
 
+// ── Submit ──
 async function submitForm() {
+  if (isSubmitting) return;
+
   const tgl = document.getElementById('tgl-jam').value;
   const nama = document.getElementById('nama').value;
   const noUnit = document.getElementById('no-unit').value.trim();
@@ -577,22 +500,36 @@ async function submitForm() {
   const warehouse = getWarehouse();
 
   if (!nama) { showToast('Pilih nama PIC terlebih dahulu.', 'danger'); return; }
-  if (!noUnit) { showToast('Isi No Unit terlebih dahulu.', 'danger'); return; }
+  if (!noUnit) { showToast('Pilih prefix dan isi No Unit terlebih dahulu.', 'danger'); return; }
   if (!namaPenerima) { showToast('Isi Nama Penerima terlebih dahulu.', 'danger'); return; }
   if (!warehouse) { showToast('Pilih Warehouse terlebih dahulu.', 'danger'); return; }
 
   const items = [];
+  let valid = true;
   document.querySelectorAll('[id^="pn-"]').forEach(el => {
+    if (!valid) return;
     const id = el.id.split('-')[1];
     const pn = el.value.trim();
-    const qty = document.getElementById('qty-' + id).value;
+    const qty = parseInt(document.getElementById('qty-' + id).value);
     const status = document.getElementById('status-' + id).value;
-    if (pn) items.push({ tgl, nama, noUnit, namaPenerima, warehouse, pn, qty, status });
+    const desc = document.getElementById('desc-' + id).value;
+    if (pn) {
+      if (!qty || qty <= 0) {
+        showToast(`Qty pada Part #${id} harus lebih dari 0.`, 'danger');
+        valid = false; return;
+      }
+      if (!status) {
+        showToast(`Pilih Status pada Part #${id}.`, 'danger');
+        valid = false; return;
+      }
+      items.push({ tgl, nama, noUnit, namaPenerima, warehouse, pn, desc, qty, status });
+    }
   });
 
+  if (!valid) return;
   if (items.length === 0) { showToast('Tambahkan minimal 1 Part Number.', 'danger'); return; }
-  if (items.find(i => !i.status)) { showToast('Pilih Status untuk semua part.', 'danger'); return; }
 
+  isSubmitting = true;
   const btn = document.getElementById('btn-submit');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Mengirim...';
@@ -601,18 +538,24 @@ async function submitForm() {
     const res = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(items)
+      body: JSON.stringify({ action: 'submit', items })
     });
     const json = await res.json();
     if (json.status === 'success') {
+      // Tampilkan No Transaksi
+      if (json.noTrx) {
+        document.getElementById('no-trx-display').textContent = '✓ ' + json.noTrx;
+        document.getElementById('no-trx-wrap').style.display = 'block';
+      }
       showToast(`✓ ${items.length} baris berhasil masuk ke Google Sheets!`, 'success');
-      resetForm();
+      setTimeout(resetForm, 3000);
     } else {
       showToast('Gagal: ' + (json.message || 'Coba lagi.'), 'danger');
     }
   } catch (err) {
     showToast('Gagal kirim. Cek koneksi internet.', 'danger');
   } finally {
+    isSubmitting = false;
     btn.disabled = false;
     btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Submit ke Google Sheets';
   }
@@ -620,17 +563,18 @@ async function submitForm() {
 
 function resetForm() {
   document.getElementById('nama').value = '';
+  document.querySelectorAll('input[name="prefix"]').forEach(r => r.checked = false);
+  document.getElementById('unit-input-wrap').style.display = 'none';
+  document.getElementById('no-unit-num').value = '';
   document.getElementById('no-unit').value = '';
   document.getElementById('nama-penerima').value = '';
-  document.getElementById('chk-krishna').checked = false;
-  document.getElementById('chk-yudistira').checked = false;
-  document.getElementById('opt-krishna').classList.remove('selected');
-  document.getElementById('opt-yudistira').classList.remove('selected');
+  document.querySelectorAll('input[name="warehouse"]').forEach(r => r.checked = false);
   document.getElementById('sub-krishna').classList.remove('show');
   document.getElementById('sub-yudistira').classList.remove('show');
   document.getElementById('loc-krishna').value = '';
   document.getElementById('loc-yudistira').value = '';
   document.getElementById('items-container').innerHTML = '';
+  document.getElementById('no-trx-wrap').style.display = 'none';
   itemCount = 0;
   tambahItem();
   window.scrollTo({ top: 0, behavior: 'smooth' });
